@@ -1,0 +1,17 @@
+<Window x:Class="CarWorkshopWPF.Views.ChooseStatusDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Zmiana statusu"
+        Height="200" Width="350"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="White">
+    <StackPanel Margin="20">
+        <TextBlock Text="Wybierz nowy status:" FontWeight="Bold" Margin="0,0,0,10"/>
+        <ComboBox x:Name="StatusComboBox" Padding="6"/>
+        <StackPanel Orientation="Horizontal" Margin="0,20,0,0" HorizontalAlignment="Right">
+            <Button Content="Anuluj" Style="{StaticResource GreyButton}" Width="100" Click="CancelButton_Click" Margin="0,0,5,0"/>
+            <Button Content="OK" Style="{StaticResource SuccessButton}" Width="100" Click="OkButton_Click"/>
+        </StackPanel>
+    </StackPanel>
+</Window>

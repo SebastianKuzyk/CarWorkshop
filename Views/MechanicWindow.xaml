@@ -1,0 +1,193 @@
+<Window x:Class="CarWorkshopWPF.Views.MechanicWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Panel Mechanika - Warsztat Samochodowy"
+        Height="720" Width="1200"
+        WindowStartupLocation="CenterScreen"
+        Background="#ECF0F1">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="240"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Column="0" Background="#1F4068">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Top" Background="#162447" Margin="0">
+                    <TextBlock Text="🔧 Mechanik" Foreground="White" FontSize="18" FontWeight="Bold"
+                               HorizontalAlignment="Center" Margin="0,15,0,0"/>
+                    <TextBlock x:Name="labelUser" Text="👤 -" Foreground="#BDC3C7" FontSize="11"
+                               HorizontalAlignment="Center" Margin="0,5,0,15"/>
+                </StackPanel>
+
+                <Button x:Name="buttonLogout" DockPanel.Dock="Bottom"
+                        Content="🚪 Wyloguj" Style="{StaticResource NavButton}" Background="#C0392B"
+                        Click="buttonLogout_Click"/>
+                <Button x:Name="editProfileButton" DockPanel.Dock="Bottom"
+                        Content="✏ Edytuj profil" Style="{StaticResource NavButton}" Background="#162447"
+                        Click="editProfileButton_Click"/>
+
+                <StackPanel>
+                    <Button x:Name="buttonMain" Content="🏠 Dashboard" Style="{StaticResource NavButton}" Click="buttonMain_Click"/>
+                    <Button x:Name="buttonCars" Content="🚗 Moje auta" Style="{StaticResource NavButton}" Click="buttonCars_Click"/>
+                    <Button x:Name="buttonParts" Content="📦 Magazyn" Style="{StaticResource NavButton}" Click="buttonParts_Click"/>
+                    <Button x:Name="buttonPartRequests" Content="🎟 Moje zgłoszenia" Style="{StaticResource NavButton}" Click="buttonPartRequests_Click"/>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" Background="White" BorderBrush="#BDC3C7" BorderThickness="0,0,0,1">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0">
+                    <TextBlock x:Name="DataLabel" FontSize="13" Margin="0,0,15,0"/>
+                    <TextBlock x:Name="TimeLabel" FontSize="13" FontWeight="Bold"/>
+                </StackPanel>
+            </Border>
+
+            <TabControl x:Name="stackedWidget" Grid.Row="1" Margin="15" BorderThickness="0" Background="Transparent">
+                <TabControl.Resources>
+                    <Style TargetType="TabItem">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                    </Style>
+                </TabControl.Resources>
+
+                <!-- Dashboard -->
+                <TabItem>
+                    <ScrollViewer>
+                        <StackPanel>
+                            <TextBlock x:Name="WelcomeLabel" Text="Witaj!" FontSize="24" FontWeight="Bold" Margin="0,0,0,15"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="350"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column="0" Background="White" CornerRadius="8" Padding="15" Margin="0,0,10,0">
+                                    <StackPanel>
+                                        <TextBlock Text="Twój profil" FontSize="14" FontWeight="Bold" Foreground="#2C3E50" Margin="0,0,0,10"/>
+                                        <TextBlock x:Name="FullNameLabel" Margin="0,3"/>
+                                        <TextBlock x:Name="RoleLabel" Margin="0,3"/>
+                                        <TextBlock x:Name="PhoneLabel" Margin="0,3"/>
+                                        <TextBlock x:Name="EmailLabel" Margin="0,3"/>
+                                    </StackPanel>
+                                </Border>
+                                <Border Grid.Column="1" Background="White" CornerRadius="8" Padding="15" Margin="10,0,0,0">
+                                    <StackPanel>
+                                        <TextBlock Text="Twoje zlecenia" FontSize="14" FontWeight="Bold" Foreground="#2C3E50" Margin="0,0,0,10"/>
+                                        <TextBlock x:Name="notStartedLabel" Margin="0,3"/>
+                                        <TextBlock x:Name="inProgressLabel" Margin="0,3"/>
+                                        <TextBlock x:Name="readyLabel" Margin="0,3"/>
+                                    </StackPanel>
+                                </Border>
+                            </Grid>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+
+                <!-- Moje auta -->
+                <TabItem>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Text="Moje zlecenia" FontSize="20" FontWeight="Bold" Margin="0,0,0,15"/>
+
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
+                            <TextBlock Text="Filtruj status:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <ComboBox x:Name="statusFilter" Width="180" Padding="5"
+                                      SelectionChanged="statusFilter_SelectionChanged">
+                                <ComboBoxItem Content="Wszystkie" IsSelected="True"/>
+                                <ComboBoxItem Content="Nierozpoczęte"/>
+                                <ComboBoxItem Content="W trakcie"/>
+                                <ComboBoxItem Content="Czeka na części"/>
+                                <ComboBoxItem Content="Gotowe do odbioru"/>
+                                <ComboBoxItem Content="Odebrane"/>
+                            </ComboBox>
+                            <Button Content="🔄 Odśwież" Style="{StaticResource GreyButton}" Margin="10,0,5,0"
+                                    Click="refreshCars_Click"/>
+                            <Button Content="📋 Szczegóły zadań" Style="{StaticResource PrimaryButton}" Margin="5,0"
+                                    Click="viewTasks_Click"/>
+                            <Button Content="↻ Zmień status zlecenia" Style="{StaticResource WarningButton}" Margin="5,0"
+                                    Click="changeStatus_Click"/>
+                        </StackPanel>
+
+                        <DataGrid x:Name="tableCars" Grid.Row="2" Style="{StaticResource DefaultDataGrid}" Background="White">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                                <DataGridTextColumn Header="Marka" Binding="{Binding Make}" Width="*"/>
+                                <DataGridTextColumn Header="Model" Binding="{Binding Model}" Width="*"/>
+                                <DataGridTextColumn Header="Rejestracja" Binding="{Binding Plate}" Width="120"/>
+                                <DataGridTextColumn Header="Klient" Binding="{Binding Client}" Width="*"/>
+                                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="140"/>
+                                <DataGridTextColumn Header="Zadania" Binding="{Binding Tasks}" Width="80"/>
+                                <DataGridTextColumn Header="Suma (zł)" Binding="{Binding Total}" Width="100"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </TabItem>
+
+                <!-- Magazyn -->
+                <TabItem>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Text="Magazyn części" FontSize="20" FontWeight="Bold" Margin="0,0,0,15"/>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
+                            <TextBlock Text="🔍 Szukaj:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBox x:Name="partsSearchInput" Width="250" Padding="5" TextChanged="partsSearchInput_TextChanged"/>
+                            <Button Content="🔄 Odśwież" Style="{StaticResource GreyButton}" Margin="10,0,5,0"
+                                    Click="refreshParts_Click"/>
+                            <Button Content="🎟 Zgłoś brak części" Style="{StaticResource WarningButton}" Margin="5,0"
+                                    Click="requestCustomPart_Click"/>
+                        </StackPanel>
+
+                        <DataGrid x:Name="tableParts" Grid.Row="2" Style="{StaticResource DefaultDataGrid}" Background="White">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="60"/>
+                                <DataGridTextColumn Header="Nazwa" Binding="{Binding Name}" Width="*"/>
+                                <DataGridTextColumn Header="Cena (zł)" Binding="{Binding Price}" Width="100"/>
+                                <DataGridTextColumn Header="Ilość" Binding="{Binding Quantity}" Width="100"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </TabItem>
+
+                <!-- Moje zgłoszenia -->
+                <TabItem>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="Moje zgłoszenia o części" FontSize="20" FontWeight="Bold" Margin="0,0,0,15"/>
+                        <Button x:Name="refreshRequestsButton" Grid.Row="1" Content="🔄 Odśwież"
+                                Style="{StaticResource GreyButton}" Width="120" HorizontalAlignment="Left" Margin="0,0,0,10"
+                                Click="refreshRequests_Click"/>
+                        <DataGrid x:Name="tableRequests" Grid.Row="2" Style="{StaticResource DefaultDataGrid}" Background="White">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                                <DataGridTextColumn Header="Część" Binding="{Binding PartName}" Width="*"/>
+                                <DataGridTextColumn Header="Ilość" Binding="{Binding Quantity}" Width="80"/>
+                                <DataGridTextColumn Header="Typ" Binding="{Binding Type}" Width="180"/>
+                                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="180"/>
+                                <DataGridTextColumn Header="Zgłoszone" Binding="{Binding CreatedStr}" Width="140"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </Grid>
+</Window>
